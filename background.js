@@ -28,13 +28,13 @@ if(getCookie('stackoverfrog') == null){
 
 function buttonclick(){
     console.log(getCookie('stackoverfrog'))
-    changecolor()
-    if (getCookie('stackoverfrog') == false){
+    if (getCookie('stackoverfrog') == 'false'){
         document.cookie = 'stackoverfrog=true'
     }
     else{
         document.cookie = 'stackoverfrog=false'
     }
+    changecolor()
 }
 
 function changecolor(){
