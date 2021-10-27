@@ -1,5 +1,4 @@
 document.getElementsByClassName('wmx12 mx-auto d-flex ai-center h100')[0].innerHTML += '<img id="frog" src="darkfrog.png" width="5%" height="100%">'
-
 back = ['content', 'top-bar', 'p-wrapper-home', 'py32', 'wmx12', 'mtn128', 'pt96', 'p48']
 text = ['content', 'top-bar', 'nav-links', 'p-wrapper-home', 'py32', 'wmx12', 'mtn128', 'pt96']
 
@@ -10,11 +9,17 @@ var row = 0
 var homepage = false 
 var style = document.createElement('style');
 
+var darkfrog = chrome.runtime.getURL("images/darkfrog.png");
+var whitefrog = chrome.runtime.getURL("images/whitefrog.jpg");
 
 function getCookie(name) {
     const value = `; ${document.cookie}`;
     const parts = value.split(`; ${name}=`);
     if (parts.length === 2) return parts.pop().split(';').shift();
+}
+
+function eraseCookie(name) {   
+    document.cookie = name+'=; Max-Age=-99999999;';  
 }
 
 if(getCookie('stackoverfrog') == null){
@@ -23,16 +28,17 @@ if(getCookie('stackoverfrog') == null){
 
 function buttonclick(){
     console.log(getCookie('stackoverfrog'))
-    if (getCookie('stackoverfrog') == 'false'){
+    changecolor()
+    if (getCookie('stackoverfrog') == false){
         document.cookie = 'stackoverfrog=true'
     }
     else{
         document.cookie = 'stackoverfrog=false'
     }
-    changecolor()
 }
 
 function changecolor(){
+    console.log(getCookie('stackoverfrog'))
     if (window.location.href == 'https://stackoverflow.com/'){
         back = ['top-bar', 'p-wrapper-home']
         text = ['top-bar', 'p-wrapper-home']
@@ -48,9 +54,8 @@ function changecolor(){
             style.innerHTML = ".bg-black-025{background: black !important;}"
             document.head.appendChild(style);
         }
-        document.body.style.backgroundImage = "url('darkfrog.png')";
-        document.getElementById('frog').outerHTML = '<img  id="frog" src="whitefrog.jpg" width="5%" height="100%"></img>'
-        
+        document.body.style.backgroundImage = "url(" + darkfrog + ")";
+        document.getElementById("frog").src = whitefrog;
         for(var elem of back){
             if (document.getElementById(elem) != null){
                 document.getElementById(elem).style.backgroundColor = 'black'; 
@@ -78,8 +83,7 @@ function changecolor(){
         }
     }
     else{
-        document.getElementById('frog').outerHTML = '<img  id="frog" src="darkfrog.png" width="5%" height="100%"></img>'
-        
+        document.getElementById("frog").src = darkfrog;
         document.body.style.backgroundImage = 'none'
         document.body.style.backgroundcolor = 'white'
         for(var elem of back){
