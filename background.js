@@ -12,10 +12,19 @@ var style = document.createElement('style');
 var darkfrog = chrome.runtime.getURL("images/darkfrog.png");
 var whitefrog = chrome.runtime.getURL("images/whitefrog.jpg");
 
-function getCookie(name) {
-    const value = `; ${document.cookie}`;
-    const parts = value.split(`; ${name}=`);
-    if (parts.length === 2) return parts.pop().split(';').shift();
+function setCookie(cName, cValue) {
+    document.cookie = cName + "=" + cValue + ";" +'Path=/;'
+}
+
+function getCookie(cName) {
+    const name = cName + "=";
+    const cDecoded = decodeURIComponent(document.cookie);
+    const cArr = cDecoded .split('; ');
+    let res;
+    cArr.forEach(val => {
+        if (val.indexOf(name) === 0) res = val.substring(name.length);
+    })
+    return res;
 }
 
 function eraseCookie(name) {   
@@ -23,30 +32,31 @@ function eraseCookie(name) {
 }
 
 if(getCookie('stackoverfrog') == null){
-    document.cookie = 'stackoverfrog=false'
+    setCookie('stackoverfrog',false);
 }
 
 function buttonclick(){
+    console.log('clicked')
     console.log(getCookie('stackoverfrog'))
     if (getCookie('stackoverfrog') == 'false'){
-        document.cookie = 'stackoverfrog=true'
+        setCookie('stackoverfrog',true)
     }
     else{
-        document.cookie = 'stackoverfrog=false'
+        setCookie('stackoverfrog',false)
     }
     changecolor()
 }
 
 function changecolor(){
-    console.log(getCookie('stackoverfrog'))
     if (window.location.href == 'https://stackoverflow.com/'){
         back = ['top-bar', 'p-wrapper-home']
         text = ['top-bar', 'p-wrapper-home']
-        homepage = true   
+        homepage = true  
     }
     else{
         back = ['content', 'top-bar', 'p-wrapper-home']
         text = ['content', 'top-bar', 'nav-links', 'p-wrapper-home','truncate','-link--channel-name']
+        homepage = false
     }
     if (getCookie('stackoverfrog') == 'true'){
         if (homepage == true)
