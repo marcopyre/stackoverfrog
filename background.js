@@ -32,7 +32,7 @@ function eraseCookie(name) {
 }
 
 if(getCookie('stackoverfrog') == null){
-    setCookie('stackoverfrog',false);
+    setCookie('stackoverfrog',true);
 }
 
 function buttonclick(){
